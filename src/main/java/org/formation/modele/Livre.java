@@ -1,9 +1,13 @@
 package org.formation.modele;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Livre {
@@ -12,16 +16,12 @@ public class Livre {
 	private int id;
 	private String titre;
 	private String auteur;
-
-	public Livre(int id, String titre, String auteur) {
-		super();
-		this.id = id;
-		this.titre = titre;
-		this.auteur = auteur;
-	}
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "bibliotheque_id")
+	private Bibliotheque bibliotheque;
 
 	public Livre() {
-
+		super();
 	}
 
 	public int getId() {
@@ -48,8 +48,17 @@ public class Livre {
 		this.auteur = auteur;
 	}
 
+	public Bibliotheque getBibliotheque() {
+		return bibliotheque;
+	}
+
+	public void setBibliothèque(Bibliotheque bibliotheque) {
+		this.bibliotheque = bibliotheque;
+	}
+
 	@Override
 	public String toString() {
-		return "Livre [id=" + id + ", titre=" + titre + ", auteur=" + auteur + "]";
+		return "Livre [id=" + id + ", titre=" + titre + ", auteur=" + auteur + ", bibliotheque=" + bibliotheque + "]";
 	}
+
 }
